@@ -1,0 +1,59 @@
+name: Build
+
+on:
+  schedule:
+    - cron: '30 18 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install coreutils curl findutils gawk jq libjson-perl perl sed unzip zip
+
+      - name: Download client
+        run: |
+          curl -L https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq .versions[0].url | xargs curl -L | jq .downloads.client.url | xargs curl -Lo source.jar
+
+      - name: Extract files
+        run: |
+          unzip source.jar assets/minecraft/lang/en_us.json version.json
+
+      - name: Generate language file
+        run: |
+          ./generator/generate < assets/minecraft/lang/en_us.json > assets/minecraft/lang/key.json
+
+      - name: Generate pack.mcmeta
+        run: |
+          cat version.json | jq .pack_version.resource,.id | sed 's/"//g' | tr '\n' '\t' | awk '{print "sed -e \"s/#PACKFORMAT/"$1"/g\" -e \"s/#VERSION/"$2"/g\" pack.mcmeta.example > pack.mcmeta"}' | bash
+
+      - name: Get Minecraft version
+        run: |
+          echo "ver=$(cat version.json | jq .id | sed 's/\"//g')" >> "$GITHUB_ENV"
+
+      - name: Update repository
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'assets/minecraft/lang/key.json pack.mcmeta'
+          default_author: github_actions
+          message: "${{ env.ver }}"
+
+      - name: Create pack
+        run: |
+          zip -r keypack.zip assets/minecraft/lang/key.json pack.mcmeta
+
+      - name: Release pack
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ env.ver }}"
+          title: "${{ env.ver }}"
+          prerelease: false
+          files: |
+            keypack.zip

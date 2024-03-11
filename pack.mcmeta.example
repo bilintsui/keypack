@@ -1,0 +1,12 @@
+{
+	"pack": {
+		"pack_format": #PACKFORMAT,
+		"description": "Display all strings in translation key and arguments (#VERSION)"
+	},
+	"language": {
+		"key": {
+			"name": "Translation Key",
+			"region": "World"
+		}
+	}
+}
