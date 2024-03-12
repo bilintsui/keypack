@@ -1,0 +1,12 @@
+{
+	"pack": {
+		"pack_format": 28,
+		"description": "Display all strings in translation key and arguments (24w10a)"
+	},
+	"language": {
+		"key": {
+			"name": "Translation Key",
+			"region": "World"
+		}
+	}
+}
