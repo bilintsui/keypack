@@ -5554,8 +5554,6 @@
   "options.percent_add_value": "(options.percent_add_value: %s, %s)",
   "options.percent_value": "(options.percent_value: %s, %s)",
   "options.pixel_value": "(options.pixel_value: %s, %s)",
-  "options.potatoFont": "(options.potatoFont)",
-  "options.potatoFont.tooltip": "(options.potatoFont.tooltip)",
   "options.prioritizeChunkUpdates": "(options.prioritizeChunkUpdates)",
   "options.prioritizeChunkUpdates.byPlayer": "(options.prioritizeChunkUpdates.byPlayer)",
   "options.prioritizeChunkUpdates.byPlayer.tooltip": "(options.prioritizeChunkUpdates.byPlayer.tooltip)",
