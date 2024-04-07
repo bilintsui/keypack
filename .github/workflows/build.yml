@@ -37,18 +37,34 @@ jobs:
         run: |
           echo "ver=$(cat version.json | jq .id | sed 's/\"//g')" >> "$GITHUB_ENV"
 
-      - name: Update repository
+      - name: Update repository locally
         uses: EndBug/add-and-commit@v9
         with:
           add: 'assets/minecraft/lang/key.json pack.mcmeta'
           default_author: github_actions
           message: "${{ env.ver }}"
+          push: false
+
+      - name: Check diff
+        run: |
+          if [ "$(git log --pretty=format:'%H' $GITHUB_REF_NAME)" != "$(git log --pretty=format:'%H' origin/$GITHUB_REF_NAME)" ]; then
+            echo changes_exist=true >> $GITHUB_ENV
+          fi
+
+      - name: Push repository
+        if: env.changes_exist == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
 
       - name: Create pack
+        if: env.changes_exist == 'true'
         run: |
           zip -r keypack.zip assets/minecraft/lang/key.json pack.mcmeta
 
       - name: Release pack
+        if: env.changes_exist == 'true'
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
