@@ -47,7 +47,7 @@ jobs:
 
       - name: Check diff
         run: |
-          if [ "$(git log --pretty=format:'%H' $GITHUB_REF_NAME)" != "$(git log --pretty=format:'%H' origin/$GITHUB_REF_NAME)" ]; then
+          if [ "$(git log --pretty=format:'%H' $GITHUB_REF_NAME | head -1)" != "$(git log --pretty=format:'%H' origin/$GITHUB_REF_NAME | head -1)" ]; then
             echo changes_exist=true >> $GITHUB_ENV
           fi
 
