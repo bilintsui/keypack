@@ -17,7 +17,7 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install coreutils curl findutils gawk jq libjson-perl perl sed unzip zip
 
-      - name: Caching version info
+      - name: Cache version information
         run: |
           curl -L https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq '.versions[0] | "\(.id) \(.url)"' | sed -e 's/"//g' -e 's/ /\t/g' > version_info.txt
 
