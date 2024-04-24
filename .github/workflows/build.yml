@@ -34,7 +34,7 @@ jobs:
       - name: Validate update
         if: env.changes_exist == 'true'
         run: |
-          if [ ! $(cut -f1 version_info.txt | grep -P '^\d{2}w\d{2}[a-z]$|^1(?:.\d+?){1,2}$|^1(?:.\d+?){1,2}-(?:pre|rc)\d+$') ]; then
+          if [ ! $(cut -f1 version_info.txt | grep -P '^\d{2}w\d{2}[a-z]$|^1(?:.\d+?){1,2}-(?:pre|rc)\d+$|^1(?:.\d+?){1,2}$') ]; then
             echo changes_exist=false >> $GITHUB_ENV
           fi
 
