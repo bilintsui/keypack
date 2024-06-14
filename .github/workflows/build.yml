@@ -83,6 +83,6 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.ver }}"
           title: "${{ env.ver }}"
-          prerelease: false
+          prerelease: true
           files: |
             keypack.zip
