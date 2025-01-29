@@ -1,7 +1,7 @@
 {
 	"pack": {
-		"pack_format": 49,
-		"description": "Display all strings in translation key and arguments (25w04a)"
+		"pack_format": 50,
+		"description": "Display all strings in translation key and arguments (25w05a)"
 	},
 	"language": {
 		"key": {
