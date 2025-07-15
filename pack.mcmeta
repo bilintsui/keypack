@@ -1,7 +1,7 @@
 {
 	"pack": {
 		"pack_format": 64,
-		"description": "Display all strings in translation key and arguments (1.21.7)"
+		"description": "Display all strings in translation key and arguments (1.21.8-rc1)"
 	},
 	"language": {
 		"key": {
