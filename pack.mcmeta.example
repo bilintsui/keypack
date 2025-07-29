@@ -1,6 +1,7 @@
 {
 	"pack": {
-		"pack_format": #PACKFORMAT,
+		"min_format": [ #PACKFORMAT_MAJOR, #PACKFORMAT_MINOR ],
+		"max_format": [ #PACKFORMAT_MAJOR, #PACKFORMAT_MINOR ],
 		"description": "Display all strings in translation key and arguments (#VERSION)"
 	},
 	"language": {

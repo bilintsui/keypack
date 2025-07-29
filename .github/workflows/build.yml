@@ -56,7 +56,7 @@ jobs:
       - name: Generate pack.mcmeta
         if: env.changes_exist == 'true'
         run: |
-          cat version.json | jq .pack_version.resource,.id | sed 's/"//g' | tr '\n' '\t' | awk '{print "sed -e \"s/#PACKFORMAT/"$1"/g\" -e \"s/#VERSION/"$2"/g\" pack.mcmeta.example > pack.mcmeta"}' | bash
+          jq -r '[.pack_version.resource_major,.pack_version.resource_minor,.id]|@tsv' version.json | awk '{print "sed -e \"s/#PACKFORMAT_MAJOR/"$1"/g\" -e \"s/#PACKFORMAT_MINOR/"$2"/g\" -e \"s/#VERSION/"$3"/g\" pack.mcmeta.example > pack.mcmeta"}' | bash
 
       - name: Get Minecraft version
         if: env.changes_exist == 'true'
