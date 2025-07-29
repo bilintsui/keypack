@@ -1,7 +1,8 @@
 {
 	"pack": {
-		"pack_format": 64,
-		"description": "Display all strings in translation key and arguments (1.21.8)"
+		"min_format": [ 65, 0 ],
+		"max_format": [ 65, 0 ],
+		"description": "Display all strings in translation key and arguments (25w31a)"
 	},
 	"language": {
 		"key": {
