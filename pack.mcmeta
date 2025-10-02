@@ -2,7 +2,7 @@
 	"pack": {
 		"min_format": [ 69, 0 ],
 		"max_format": [ 69, 0 ],
-		"description": "Display all strings in translation key and arguments (1.21.9)"
+		"description": "Display all strings in translation key and arguments (1.21.10-rc1)"
 	},
 	"language": {
 		"key": {
