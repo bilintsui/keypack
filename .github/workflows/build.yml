@@ -19,14 +19,14 @@ jobs:
 
       - name: Cache version information
         run: |
-          curl -L https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq '.versions[0] | "\(.id) \(.url)"' | sed -e 's/"//g' -e 's/ /\t/g' > version_info.txt
+          curl -L https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r '.versions[0] | "\(.id)\t\(.url)"' > version_info.txt
 
       - name: Check update
         run: |
           if [ ! -f pack.mcmeta ]; then
             echo changes_exist=true >> $GITHUB_ENV
           else
-            if [ $(cat pack.mcmeta | jq .pack.description | sed -e 's/"//g' -e 's/^.*(//' -e 's/)$//') != $(cut -f1 version_info.txt) ]; then
+            if [ $(jq -r .pack.description pack.mcmeta | sed -E 's/^.+\((.+)\)$/\1/') != $(cut -f1 version_info.txt) ]; then
               echo changes_exist=true >> $GITHUB_ENV
             fi
           fi
@@ -34,14 +34,14 @@ jobs:
       - name: Validate update
         if: env.changes_exist == 'true'
         run: |
-          if [ ! $(cut -f1 version_info.txt | grep -P '^\d{2}w\d{2}[a-z]$|^1(?:.\d+?){1,2}-(?:pre|rc)\d+$|^1(?:.\d+?){1,2}$') ]; then
+          if [ ! $(cut -f1 version_info.txt | grep -P '^\d{2}w\d{2}[a-z]$|^1(?:\.\d+){1,2}(?:-(?:pre|rc)\d+)?$|^(?:2[6-9]|[3-9]\d|[1-9]\d{2,})(?:\.\d+){1,2}(?:-(?:snapshot|pre|rc)-\d+)?$') ]; then
             echo changes_exist=false >> $GITHUB_ENV
           fi
 
       - name: Download client
         if: env.changes_exist == 'true'
         run: |
-          cut -f2 version_info.txt | xargs curl -L | jq .downloads.client.url | xargs curl -Lo source.jar
+          cut -f2 version_info.txt | xargs curl -L | jq -r .downloads.client.url | xargs curl -Lo source.jar
 
       - name: Extract files
         if: env.changes_exist == 'true'
@@ -61,7 +61,7 @@ jobs:
       - name: Get Minecraft version
         if: env.changes_exist == 'true'
         run: |
-          echo "ver=$(cat version.json | jq .id | sed 's/\"//g')" >> "$GITHUB_ENV"
+          echo "ver=$(cat version.json | jq -r .id)" >> "$GITHUB_ENV"
 
       - name: Update repository
         if: env.changes_exist == 'true'
