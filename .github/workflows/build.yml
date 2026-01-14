@@ -2,13 +2,13 @@ name: Build
 
 on:
   schedule:
-    - cron: '30 18 * * *'
+    - cron: '0 18 * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: true
 
@@ -70,6 +70,7 @@ jobs:
           add: 'assets/minecraft/lang/key.json pack.mcmeta'
           default_author: github_actions
           message: "${{ env.ver }}"
+          tag: "${{ env.ver }}"
 
       - name: Create pack
         if: env.changes_exist == 'true'
@@ -78,11 +79,10 @@ jobs:
 
       - name: Release pack
         if: env.changes_exist == 'true'
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ env.ver }}"
-          title: "${{ env.ver }}"
           prerelease: true
           files: |
             keypack.zip
+          name: "${{ env.ver }}"
+          tag_name: "${{ env.ver }}"
