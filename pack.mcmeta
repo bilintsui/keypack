@@ -1,8 +1,8 @@
 {
 	"pack": {
-		"min_format": [ 87, 0 ],
-		"max_format": [ 87, 0 ],
-		"description": "Display all strings in translation key and arguments (26.2-snapshot-8)"
+		"min_format": [ 88, 0 ],
+		"max_format": [ 88, 0 ],
+		"description": "Display all strings in translation key and arguments (26.2-pre-1)"
 	},
 	"language": {
 		"key": {
